@@ -1,0 +1,49 @@
+{
+  "groups": [
+    {
+      "name": "wx.info",
+      "type": "com.scaudachuang.catlife.web.config.WxAppDevInfo",
+      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spring.profiles.active",
+      "type": "java.lang.String",
+      "description": "Description for spring.profiles.active."
+    },
+    {
+      "name": "wx.info.app-id",
+      "type": "java.lang.String",
+      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
+    },
+    {
+      "name": "wx.info.appId",
+      "type": "java.lang.String",
+      "description": "Description for wx.info.appId."
+    },
+    {
+      "name": "wx.info.grant-type",
+      "type": "java.lang.String",
+      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
+    },
+    {
+      "name": "wx.info.grantType",
+      "type": "java.lang.String",
+      "description": "Description for wx.info.grantType."
+    },
+    {
+      "name": "wx.info.secret",
+      "type": "java.lang.String",
+      "description": "Description for wx.info.secret.",
+      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
+    },
+    {
+      "name": "wx.info.url",
+      "type": "java.lang.String",
+      "description": "Description for wx.info.url.",
+      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
+    }
+  ],
+  "hints": []
+}

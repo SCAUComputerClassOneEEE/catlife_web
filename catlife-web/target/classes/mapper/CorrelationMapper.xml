@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scaudachuang.catlife.web.dao.CorrelationMapper">
+    <update id="updateCorr">
+        update correlation set bf = #{corr.bf}, bfDatetime = #{corr.bfDatetime}
+        where nid = #{corr.nId} and benid = #{corr.beNid};
+    </update>
+
+    <select id="checkIfPresent" resultType="com.scaudachuang.catlife.web.entity.Correlation">
+        select * from correlation where nId = #{nid} and beNId = #{beId};
+    </select>
+
+    <select id="getUserCorrelationInfoBar"
+            resultType="com.scaudachuang.catlife.web.model.CorrelationInfoBar">
+        select nId as id, bfDatetime, nickname, avatar
+        from correlation inner join catowner on correlation.nId = catowner.ownerId
+        where correlation.beNId = #{id} and bf = #{bf};
+    </select>
+</mapper>

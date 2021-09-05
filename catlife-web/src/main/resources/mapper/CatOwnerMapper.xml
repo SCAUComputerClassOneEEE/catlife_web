@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scaudachuang.catlife.web.dao.CatOwnerMapper">
+    <insert id="replaceInsertOwner">
+        replace into catowner (openId, sessionKey, nickname, avatar) values
+        (#{catOwner.openId}, #{catOwner.sessionKey}, #{catOwner.nickName}, #{catOwner.avatar});
+    </insert>
+
+
+    <select id="getByOpenId" resultType="com.scaudachuang.catlife.web.entity.CatOwner">
+        select * from catowner where openId = #{openId};
+    </select>
+    <select id="getSelf" resultType="com.scaudachuang.catlife.web.entity.CatOwner">
+        select * from catowner where ownerId = #{ownerId};
+    </select>
+
+</mapper>

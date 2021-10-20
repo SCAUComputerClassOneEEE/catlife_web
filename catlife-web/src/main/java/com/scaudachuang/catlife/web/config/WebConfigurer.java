@@ -16,7 +16,7 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new SelfOnlineInterceptor())
-                .addPathPatterns("/self/**").excludePathPatterns("/self/login");
+                .addPathPatterns("/self/**").excludePathPatterns("/self/login", "/self/catLife/aCatRecord");
     }
 
     @Bean

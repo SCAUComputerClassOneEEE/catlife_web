@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="743e752e-6f43-4bc9-9f02-99b537cad3de" name="tx" url="http://scaucatlife.xyz">
+        <fileTransfer rootFolder="/home/ubuntu/scauDev/catlife" accessType="SFTP" host="119.29.185.91" port="22" sshConfigId="3fe8974b-323b-434c-b9f2-2d7b1aa3a599" sshConfig="ubuntu@119.29.185.91:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

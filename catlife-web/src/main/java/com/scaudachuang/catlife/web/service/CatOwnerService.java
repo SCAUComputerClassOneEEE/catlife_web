@@ -38,7 +38,7 @@ public class CatOwnerService {
         int i = catOwnerMapper.replaceInsertOwner(catOwner);
         if (i <= 0)
             return null;
-        return catOwnerMapper.getByOpenId(openId);
+        return catOwner;
     }
 
     public CatOwner getMyselfInfo(long ownerId) {

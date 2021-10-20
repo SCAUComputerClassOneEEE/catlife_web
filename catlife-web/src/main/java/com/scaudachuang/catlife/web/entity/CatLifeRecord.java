@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import org.joda.time.DateTime;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public class CatLifeRecord {
     private long ownerId;
     private String catClass;
     private int haveCatId;
-    private DateTime reDateTime;
+    private Date reDateTime;
 
     private String growth;
     private String diet;

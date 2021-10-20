@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scaudachuang.catlife.web.dao.CatRecordMapper">
+    <select id="getSomeRecordBetween" resultType="com.scaudachuang.catlife.web.entity.CatLifeRecord">
+        select * from catliferecord where id = #{haveCatId}
+        <if test="start != null and end != null">
+            and Date(reDateTime) between #{start} and #{end}
+        </if>
+        <if test="start == null and end != null">
+            and Date(reDateTime) &lt;= #{end}
+        </if>
+    </select>
+</mapper>

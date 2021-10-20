@@ -12,7 +12,11 @@
         <module>catlife-commons</module>
         <module>catlife-web</module>
     </modules>
-
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.5.2</version>
+    </parent>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -30,7 +34,6 @@
         <jodatime-version>2.9.8</jodatime-version>
         <jedis-version>2.9.0</jedis-version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,5 +111,4 @@
             <version>${jodatime-version}</version>
         </dependency>
     </dependencies>
-
 </project>

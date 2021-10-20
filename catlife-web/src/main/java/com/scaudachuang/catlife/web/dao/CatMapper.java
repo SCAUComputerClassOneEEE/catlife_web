@@ -3,12 +3,14 @@ package com.scaudachuang.catlife.web.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.scaudachuang.catlife.web.entity.Cat;
+import com.scaudachuang.catlife.web.entity.CatLifeRecord;
 import com.scaudachuang.catlife.web.entity.HaveCat;
 import com.scaudachuang.catlife.web.model.SimpleHaveCatInfoBar;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -29,5 +31,6 @@ public interface CatMapper extends BaseMapper<HaveCat> {
             @Param("catClass") String catClass,
             @Param("id") int id
     );
+
 
 }

@@ -1,27 +1,39 @@
 package com.scaudachuang.catlife.web.web;
 
 import com.scaudachuang.catlife.commons.model.UserSession;
+import com.scaudachuang.catlife.web.entity.CatLifeRecord;
 import com.scaudachuang.catlife.web.entity.HaveCat;
 import com.scaudachuang.catlife.commons.model.RtMessage;
 import com.scaudachuang.catlife.web.model.CorrelationInfoBar;
 import com.scaudachuang.catlife.web.model.SimpleHaveCatInfoBar;
 import com.scaudachuang.catlife.web.service.CatOwnerService;
-import com.scaudachuang.catlife.web.service.HaveCatService;
+import com.scaudachuang.catlife.web.service.CatService;
 import com.scaudachuang.catlife.commons.utils.HttpHelper;
+import com.scaudachuang.catlife.web.utils.DateUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * 已完成需求：
+ *
  * 用户的私人信息
  * - 粉丝 1
- * - 黑名单 1
- * - 有哪些猫 1
+ *      insert select
+ * - 黑名单 （不做了）
+ *      insert select
+ * - 我的猫
+ *      简单选项和详细档案的insert select
  * - 猫日记
+ *      按日期查找
  */
 @RestController
 @RequestMapping("/self/catLife")
@@ -29,7 +41,7 @@ public class CatOwnerSelfInfoController {
     @Resource
     private CatOwnerService catOwnerService;
     @Resource
-    private HaveCatService haveCatService;
+    private CatService catService;
 
     /**
      * bf
@@ -54,7 +66,7 @@ public class CatOwnerSelfInfoController {
         }
         List<CorrelationInfoBar> correlationList = catOwnerService.getCorrelationList(page, limit, bf == 1, ownerId);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("correlationList", correlationList);
+        map.put("list", correlationList);
         map.put("nums", correlationList.size());
         return RtMessage.OK(map);
     }
@@ -96,9 +108,9 @@ public class CatOwnerSelfInfoController {
         } else if (ownerId < 0) {
             return RtMessage.ERROR(303, "error ownerId", null);
         }
-        List<SimpleHaveCatInfoBar> catInfoBars = haveCatService.myAllCats_simple(ownerId, catClass, page, limit);
+        List<SimpleHaveCatInfoBar> catInfoBars = catService.myAllCats_simple(ownerId, catClass, page, limit);
         HashMap<String, Object> map = new HashMap<>();
-        map.put("cats", catInfoBars);
+        map.put("list", catInfoBars);
         map.put("nums", catInfoBars.size());
         return RtMessage.OK(map);
     }
@@ -116,7 +128,7 @@ public class CatOwnerSelfInfoController {
         long ownerId = HttpHelper.getUserSessionValue(request).getDefineOnlineStatus();
         if (ownerId <= 0) return RtMessage.ERROR(500, "错误用户缓存", null);
 
-        HaveCat haveCat = haveCatService.myOneHaveCat(ownerId, catClass, haveCatId);
+        HaveCat haveCat = catService.myOneHaveCat(ownerId, catClass, haveCatId);
         if (haveCat != null)
             return RtMessage.OK(haveCat);
         else
@@ -130,8 +142,41 @@ public class CatOwnerSelfInfoController {
      */
     @PostMapping("/myOneHaveCat")
     public RtMessage<Object> newHaveCat(@RequestBody HaveCat cat, HttpServletRequest request) {
-        boolean b = haveCatService.newMyCat(cat);
+        boolean b = catService.newMyCat(cat);
         return RtMessage.INSERT_BOOL(b, "插入结果");
     }
 
+    @GetMapping("/aCatRecord")
+    public RtMessage<Object> getBetweenEndAndStartRecord(
+            @RequestParam("end") String end,
+            @RequestParam("start") String start,
+            @RequestParam("haveCatId") long id
+    ) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if (end == null) end = "";
+        if (start == null) start = "";
+        try {
+
+            Date endDate = DateUtil.alignment(
+                    ("".equals(end))
+                            ? sdf.parse(end) : new Date());
+            Date startDate = ("".equals(start))
+                    ? DateUtil.alignment(sdf.parse(start)) : null;
+
+            Map<String, CatLifeRecord> someDateCatRecord = catService.getSomeDateCatRecord(endDate, startDate, id);
+            int size = someDateCatRecord.size();
+            HashMap<String, Object> rtMap = new HashMap<>();
+            rtMap.put("nums", size);
+            rtMap.put("map", someDateCatRecord);
+            return RtMessage.OK(rtMap);
+        } catch (ParseException e) {
+            return RtMessage.ERROR(500, "日期参数日常", null);
+        }
+    }
+
+    @PostMapping("/aCatRecord")
+    public RtMessage<Object> newACatRecord(@RequestBody CatLifeRecord catLifeRecord, HttpServletRequest request) {
+        boolean b = catService.newCatRecord(catLifeRecord);
+        return RtMessage.INSERT_BOOL(b, "插入结果");
+    }
 }

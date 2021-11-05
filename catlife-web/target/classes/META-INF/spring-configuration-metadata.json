@@ -23,11 +23,6 @@
       "description": "Description for wx.info.appId."
     },
     {
-      "name": "wx.info.grant-type",
-      "type": "java.lang.String",
-      "sourceType": "com.scaudachuang.catlife.web.config.WxAppDevInfo"
-    },
-    {
       "name": "wx.info.grantType",
       "type": "java.lang.String",
       "description": "Description for wx.info.grantType."

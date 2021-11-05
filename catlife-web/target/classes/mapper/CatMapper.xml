@@ -31,13 +31,4 @@
     <select id="catRepos" resultType="java.lang.String">
         select cat.catClass from cat;
     </select>
-    <select id="getSomeRecordBetween" resultType="com.scaudachuang.catlife.web.entity.CatLifeRecord">
-        select * from catliferecord where id = #{haveCatId}
-            <if test="start != null and end != null">
-                and Date(reDateTime) between #{start} and #{end}
-            </if>
-            <if test="start == null and end != null">
-                and Date(reDateTime) &lt;= #{end}
-            </if>
-    </select>
 </mapper>

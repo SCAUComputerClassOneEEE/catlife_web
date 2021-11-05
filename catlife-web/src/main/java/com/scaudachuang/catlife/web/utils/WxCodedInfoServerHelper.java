@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.net.ConnectException;
 import java.nio.charset.StandardCharsets;
 import java.security.AlgorithmParameters;
@@ -27,19 +28,19 @@ public class WxCodedInfoServerHelper {
     @Resource
     private WxAppDevInfo wxAppDevInfo;
 
-    public WxSessionResponse code2Session(String code) throws ConnectException {
-        ResponseEntity<WxSessionResponse> forEntity =
+    public WxSessionResponse code2Session(String code) throws IOException {
+        ResponseEntity<String> forEntity =
                 restTemplate.getForEntity(
                         wxAppDevInfo.getUrl(),
-                        WxSessionResponse.class,
+                        String.class,
                         wxAppDevInfo.mapParams(code)
                 );
-        if (!forEntity.getStatusCode().isError()) {
+        if (forEntity.getStatusCode().isError()) {
             throw new ConnectException("wx server connect fail.");
         }
-        WxSessionResponse body = forEntity.getBody();
+        String body = forEntity.getBody();
         if (body == null) throw new NullPointerException("wx code2Session response body is null");
-        return body;
+        return JSONUtil.readValue(body, WxSessionResponse.class);
     }
 
     public static WxUserDecryptedInfo decryptUserInfo(

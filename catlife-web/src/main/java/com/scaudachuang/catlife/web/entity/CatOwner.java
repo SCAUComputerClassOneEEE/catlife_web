@@ -6,9 +6,9 @@ import lombok.Data;
 @Data
 public class CatOwner {
     @TableId
-    private Integer ownerId;
+    private Long ownerId;
     private String openId;
     private String sessionKey;
-    private String nickname;
+    private String nickName;
     private String avatar;
 }

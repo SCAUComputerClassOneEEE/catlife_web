@@ -5,16 +5,16 @@ spring:
     port: 5269
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: lu19991024
+    password: Clu@19991024
     username: lyx
-    url: jdbc:mysql://119.29.185.91:12322/cat_life?charset=utf8&useSSL=false
+    url: jdbc:mysql://119.29.185.91:12322/cat_life?charset=utf8&useSSL=false&allowPublicKeyRetrieval=true
   main:
     allow-bean-definition-overriding: true
   session:
     store-type: redis
 
 server:
-  port: 8657
+  port: 8080
 #  ssl:
 #    key-store: classpath:scaucatlife.xyz.jks
 #    key-store-type: JKS
@@ -22,7 +22,6 @@ server:
 
 wx:
   info:
-    url: https://api.weixin.qq.com/sns/jscode2session
-    appId:
-    secret:
-    grantType: authorization_code
+    url: https://api.weixin.qq.com/sns/jscode2session?appid={APPID}&secret={SECRET}&js_code={JSCODE}&grant_type=authorization_code
+    appId: wx286634101a9bab50
+    secret: ee89964dcdd90f98b47b045fe427d98d

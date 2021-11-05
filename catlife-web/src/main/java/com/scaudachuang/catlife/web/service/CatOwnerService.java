@@ -28,14 +28,12 @@ public class CatOwnerService {
      * @return 用户再服务器的表数据
      */
     public CatOwner existThenGetOtherwiseInsert(String openId,
-                                                WxUserDecryptedInfo wxUserDecryptedInfo,
                                                 String sessionKey) {
         CatOwner catOwner = new CatOwner();
         catOwner.setOpenId(openId);
-        catOwner.setAvatar(wxUserDecryptedInfo.getAvatarUrl());
-        catOwner.setNickname(wxUserDecryptedInfo.getNickName());
         catOwner.setSessionKey(sessionKey);
         int i = catOwnerMapper.replaceInsertOwner(catOwner);
+        catOwner.setOwnerId(catOwnerMapper.getOwnerID(openId));
         if (i <= 0)
             return null;
         return catOwner;

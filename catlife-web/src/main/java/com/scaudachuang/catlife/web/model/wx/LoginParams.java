@@ -9,6 +9,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LoginParams {
     private String code;
-    private String iv;
-    private String encryptedData;
 }

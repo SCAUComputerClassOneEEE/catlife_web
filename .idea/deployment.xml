@@ -5,7 +5,7 @@
       <paths name="tx">
         <serverdata>
           <mappings>
-            <mapping deploy="/web" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/catweb" local="$PROJECT_DIR$/catweb" web="" />
           </mappings>
         </serverdata>
       </paths>

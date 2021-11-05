@@ -13,6 +13,8 @@ public interface CatOwnerMapper {
 
     CatOwner getByOpenId(@Param("openId") String openId);
 
+    long getOwnerID(@Param("openId") String openId);
+
     CatOwner getSelf(@Param("ownerId") long ownerId);
 
     int replaceInsertOwner(@Param("catOwner") CatOwner catOwner);

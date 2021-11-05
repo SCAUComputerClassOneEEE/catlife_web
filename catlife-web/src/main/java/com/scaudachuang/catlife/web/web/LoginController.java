@@ -43,33 +43,32 @@ public class LoginController {
 
     @PostMapping(path = "/login")
     public RtMessage<CatOwner> wxLogin(@RequestBody LoginParams params,
-                                       HttpServletRequest request) throws ConnectException {
+                                       HttpServletRequest request) {
         /* 登录参数 */
         final String code = params.getCode();
-        final String encryptedData = params.getEncryptedData();
-        final String iv = params.getIv();
         /* 与wx server建立session */
-        WxSessionResponse wxSessionResponse = wxCodedInfoServerHelper.code2Session(code);
-        if (wxSessionResponse.getErrCode() != 0) {
-            return RtMessage.ERROR(wxSessionResponse.getErrCode(), wxSessionResponse.getErrMsg(), null);
+        WxSessionResponse wxSessionResponse;
+        try {
+            wxSessionResponse = wxCodedInfoServerHelper.code2Session(code);
+        } catch (Exception e) {
+            return RtMessage.ERROR(500, e.getMessage(), null);
         }
-        /* ******************** */
 
         String openId = wxSessionResponse.getOpenId();
         String sessionKey = wxSessionResponse.getSessionKey();
-        try {
-            /* 解压用户信息 */
-            WxUserDecryptedInfo wxUserDecryptedInfo = WxCodedInfoServerHelper.decryptUserInfo(encryptedData, sessionKey, iv);
-            /* 获取或覆盖数据库用户数据 */
-            CatOwner catOwner = catOwnerService.existThenGetOtherwiseInsert(openId, wxUserDecryptedInfo, sessionKey);
-
-            if (catOwner == null)
-                return RtMessage.ERROR(500, "login fail", null);
-
-            HttpHelper.setUserSessionId(request, catOwner.getOwnerId());
-            return RtMessage.OK(catOwner);
-        } catch (Exception e) {
-            return RtMessage.ERROR(500, "decrypt uer info fail", null);
+        if (openId == null || sessionKey == null) {
+            return RtMessage.ERROR(500, "openId == null || sessionKey == null", null);
         }
+
+        CatOwner catOwner = catOwnerService.existThenGetOtherwiseInsert(openId, sessionKey);
+        if (catOwner == null)
+            return RtMessage.ERROR(500, "catOwner == null", null);
+
+        try {
+            HttpHelper.setUserSessionId(request, catOwner.getOwnerId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RtMessage.OK(catOwner);
     }
 }
